@@ -1,18 +1,16 @@
 package com.hotel;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import com.hotel.db.DatabaseConnection;
+import com.hotel.model.User;
+import com.hotel.model.enums.UserRole;
+import com.hotel.repository.UserRepository;
+import com.hotel.repository.jdbc.UserRepositoryImpl;
 
 public class Main {
     public static void main(String[] args) {
-        String url = "jdbc:postgresql://localhost:5432/hotel_management";
-        String user = "postgres";
-        String password = "password"; // whatever you set in docker-compose.yml
-
-        try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            System.out.println("Connected to PostgreSQL successfully!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        UserRepository repo = new UserRepositoryImpl();
+        User user = new User("Hamza Annane","annane@gmail.com","+212678789076","password123","xyz", UserRole.CLIENT);
+        repo.save(user);
+        System.out.println("Saved: " + user);
     }
 }
